@@ -1,0 +1,248 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Cloud Cassette — Cozy Pastel Global Styles
+   ============================================================ */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #DCE5B2;
+    color: #4A2E2B;
+  }
+}
+
+/* ── Font utilities ──────────────────────────────────────────── */
+.font-retro { font-family: 'Silkscreen', monospace; }
+.font-cute  { font-family: 'Fredoka', sans-serif; font-weight: 600; }
+.font-sans  { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.font-comfy { font-family: 'Comfortaa', cursive; }
+.font-timer { font-family: 'VT323', monospace; }
+
+/* ── Warm Film Grain Overlay ─────────────────────────────────── */
+.film-grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+.film-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* SVG-based noise texture */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  animation: film-grain 0.18s steps(1) infinite;
+}
+@keyframes film-grain {
+  0%   { background-position: 0 0; }
+  10%  { background-position: -20px -40px; }
+  20%  { background-position: 15px -25px; }
+  30%  { background-position: -30px 10px; }
+  40%  { background-position: 25px 30px; }
+  50%  { background-position: -15px -10px; }
+  60%  { background-position: 10px 40px; }
+  70%  { background-position: -25px 20px; }
+  80%  { background-position: 30px -30px; }
+  90%  { background-position: -10px 15px; }
+  100% { background-position: 20px -20px; }
+}
+
+/* ── Warm Vignette ───────────────────────────────────────────── */
+.warm-vignette {
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 45%,
+    rgba(74, 46, 43, 0.35) 100%
+  );
+}
+
+/* ── Glitch Tuning Overlay ───────────────────────────────────── */
+.glitch-overlay {
+  background: rgba(220, 229, 178, 0.92);
+}
+.glitch-text-cozy {
+  color: #4A2E2B;
+  font-family: 'VT323', monospace;
+  text-shadow: 2px 0 #F4B5C6, -2px 0 #98B682;
+}
+
+/* ── Retro Solid-Offset Shadow Utilities ─────────────────────── */
+.shadow-retro-sm  { box-shadow: 3px 3px 0px #4A2E2B; }
+.shadow-retro     { box-shadow: 4px 4px 0px #4A2E2B; }
+.shadow-retro-md  { box-shadow: 5px 5px 0px #4A2E2B; }
+.shadow-retro-lg  { box-shadow: 6px 6px 0px #4A2E2B; }
+.shadow-retro-xl  { box-shadow: 8px 8px 0px #4A2E2B; }
+
+/* Pressed state */
+.btn-press {
+  transition: all 0.08s ease;
+}
+.btn-press:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px #4A2E2B !important;
+}
+
+/* ── Range Sliders — single unified track (no double-bar) ──────── */
+.cozy-slider,
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px; /* thin wrapper height — actual track is via pseudo-element */
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Single track strip */
+.cozy-slider::-webkit-slider-runnable-track,
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #D6C9A8;
+  border: 2px solid #4A2E2B;
+  border-radius: 9999px;
+}
+
+/* Thumb */
+.cozy-slider::-webkit-slider-thumb,
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--thumb-color, #F4B5C6);
+  border: 2.5px solid #4A2E2B;
+  box-shadow: 2px 2px 0px #4A2E2B;
+  margin-top: -7px; /* vertically centres thumb on the 8px track */
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.cozy-slider::-webkit-slider-thumb:hover,
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Firefox */
+.cozy-slider::-moz-range-track,
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: #D6C9A8;
+  border: 2px solid #4A2E2B;
+  border-radius: 9999px;
+}
+.cozy-slider::-moz-range-thumb,
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--thumb-color, #F4B5C6);
+  border: 2.5px solid #4A2E2B;
+  box-shadow: 2px 2px 0px #4A2E2B;
+  cursor: pointer;
+}
+
+.cozy-slider:disabled,
+input[type="range"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Custom Scrollbar (Warm Cocoa) ───────────────────────────── */
+.cozy-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #C5A882 #F5EDD5;
+}
+.cozy-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.cozy-scroll::-webkit-scrollbar-track {
+  background: #F5EDD5;
+  border-radius: 9999px;
+}
+.cozy-scroll::-webkit-scrollbar-thumb {
+  background: #C5A882;
+  border-radius: 9999px;
+}
+.cozy-scroll::-webkit-scrollbar-thumb:hover {
+  background: #4A2E2B;
+}
+
+/* ── Utility: Cozy Card Base ─────────────────────────────────── */
+.cozy-card {
+  background: #FFFDF5;
+  border: 3px solid #4A2E2B;
+  border-radius: 24px;
+  box-shadow: 5px 5px 0px #4A2E2B;
+}
+
+/* ── Animated dots loading ───────────────────────────────────── */
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+  40%            { transform: scale(1.0); opacity: 1;   }
+}
+.dot-loader span {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: #4A2E2B;
+  border-radius: 50%;
+  animation: dot-bounce 1.2s ease-in-out infinite;
+}
+.dot-loader span:nth-child(2) { animation-delay: 0.2s; }
+.dot-loader span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Floating animation ──────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+.animate-float { animation: float 3.5s ease-in-out infinite; }
+
+/* ── Tape / vinyl spin ───────────────────────────────────────── */
+@keyframes tape-spin  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes vinyl-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.animate-tape-spin  { animation: tape-spin  3s linear infinite; }
+.animate-vinyl-spin { animation: vinyl-spin 4s linear infinite; }
+
+/* ── Shimmer on button ───────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+.btn-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ── Glitch animation for tuning screen ─────────────────────── */
+@keyframes cozy-glitch {
+  0%  { transform: translate(0);        }
+  20% { transform: translate(-2px, 1px);}
+  40% { transform: translate(2px, -1px);}
+  60% { transform: translate(-1px, 2px);}
+  80% { transform: translate(1px, -2px);}
+  100%{ transform: translate(0);        }
+}
+.animate-cozy-glitch { animation: cozy-glitch 0.5s infinite; }
