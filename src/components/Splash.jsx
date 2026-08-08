@@ -18,13 +18,14 @@ const Splash = () => {
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
         >
           {/* ── Image Background (No Blur) ── */}
-          <div className="absolute inset-0 pointer-events-none">
-            <img
-              src="/splash-bg.png"
-              alt="City Sunset Background"
-              className="w-full h-full object-cover"
-            />
-          </div>
+         {/* ── Image Background ── */}
+<div className="absolute -inset-1 pointer-events-none overflow-hidden bg-[#4A2E2B]">
+  <img
+    src="/splash-bg.webp"
+    alt="City Sunset Background"
+    className="w-full h-[100dvh] object-cover scale-[1.02]"
+  />
+</div>
 
           {/* ── Main Card (Extremely Compact) ── */}
           <motion.div
@@ -55,7 +56,7 @@ const Splash = () => {
 
             {/* Mascot (Massive relative to the small box) */}
             <motion.img
-              src="/favicon.png"
+              src="/favicon.webp"
               alt="Cloud Cassette Mascot"
               animate={{ y: [-3, 3, -3] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}

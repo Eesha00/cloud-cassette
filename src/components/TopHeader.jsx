@@ -35,7 +35,7 @@ const TopHeader = () => {
           >
             {/* New custom image replacing the ☁️ emoji */}
             <img 
-              src="/cassette-header.png" 
+              src="/cassette-header.webp" 
               alt="Cloud Cassette Logo" 
               className="w-10 h-auto drop-shadow-sm" 
               style={{ flexShrink: 0 }}
