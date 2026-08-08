@@ -33,7 +33,15 @@ const TopHeader = () => {
               maxWidth: 'calc(100vw - 32px)', /* never clips on any screen */
             }}
           >
-            <span style={{ fontSize: 16, lineHeight: 1, flexShrink: 0 }}>☁️</span>
+            {/* New custom image replacing the ☁️ emoji */}
+            <img 
+              src="/cassette-header.png" 
+              alt="Cloud Cassette Logo" 
+              className="w-10 h-auto drop-shadow-sm" 
+              style={{ flexShrink: 0 }}
+              draggable={false}
+            />
+            
             <div style={{ minWidth: 0 }}>
               {/* App sub-label — always shown */}
               <div

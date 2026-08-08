@@ -2,25 +2,6 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import useStore from '../store/useStore';
 import { STATIONS } from '../config/stations';
-import RainCanvas         from './canvas/RainCanvas';
-import SakuraPetalsCanvas from './canvas/SakuraPetalsCanvas';
-import FirefliesCanvas    from './canvas/FirefliesCanvas';
-import SnowCanvas         from './canvas/SnowCanvas';
-
-// Canvas particle overlay per station ID
-const CANVAS_EFFECTS = {
-  'raining-on-street': 'rain',
-  'avatar-sky':        null,
-  'oriental-sunset':   null,
-  'misty-church':      null,
-  'cyber-city':        null,
-  'green-scenery':     null,
-  'gothic-night':      'fireflies',
-  'char-gaming':       null,
-  'messy-room':        null,
-  'snowy-temple':      'snow',
-  'lakeside-cabin':    'rain',
-};
 
 // Warm gradient shown while video loads or if video fails
 const BG_FALLBACKS = {
@@ -41,7 +22,6 @@ const Background = () => {
   const stationIndex = useStore((s) => s.stationIndex);
   const isGlitching  = useStore((s) => s.isGlitching);
   const station      = STATIONS[stationIndex] ?? STATIONS[0];
-  const canvasEffect = CANVAS_EFFECTS[station.id];
 
   // Determine MIME type from extension
   const mimeType = station.videoBg?.endsWith('.webm') ? 'video/webm' : 'video/mp4';
@@ -85,12 +65,6 @@ const Background = () => {
           )}
         </motion.video>
       </AnimatePresence>
-
-      {/* ── Canvas particle effects ── */}
-      {canvasEffect === 'rain'      && <RainCanvas         key={station.id} intensity={0.65} />}
-      {canvasEffect === 'sakura'    && <SakuraPetalsCanvas key={station.id} intensity={0.9}  />}
-      {canvasEffect === 'fireflies' && <FirefliesCanvas    key={station.id} intensity={0.75} />}
-      {canvasEffect === 'snow'      && <SnowCanvas         key={station.id} intensity={0.85} />}
 
       {/* ── Bottom gradient — dock readability ── */}
       <div

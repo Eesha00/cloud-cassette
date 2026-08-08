@@ -6,7 +6,7 @@ const useStore = create((set, get) => ({
   stationIndex: 0,
   isPlaying: false,
   isGlitching: false,
-  volume: 80,          // master YouTube volume 0-100
+  volume: 80,          // master volume 0-100
 
   // ─── UI ──────────────────────────────────────────────────
   uiVisible: true,
@@ -18,12 +18,12 @@ const useStore = create((set, get) => ({
   // ─── Ambient Volumes ─────────────────────────────────────
   ambientVolumes: {
     rain: 0,
-    cafe: 0,
+    crickets: 0,
     fire: 0,
   },
   ambientMuted: {
     rain: false,
-    cafe: false,
+    crickets: false,
     fire: false,
   },
 

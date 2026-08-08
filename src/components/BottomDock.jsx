@@ -12,11 +12,6 @@ const ACCENT_COLORS = [
   '#98B682', '#C3B1E1', '#F4B5C6', '#E9C46A', '#B5EAD7', '#F8B088',
 ];
 
-/* ── JS-based responsive hook ───────────────────────────────────
-   We use window.innerWidth instead of Tailwind md:hidden because
-   AnimatePresence needs to know at render-time whether to mount
-   the mobile components, so CSS-only toggling causes duplicates.
-   ──────────────────────────────────────────────────────────── */
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' ? window.innerWidth < breakpoint : false
@@ -29,7 +24,6 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-/* ── Spinning Vinyl ─────────────────────────────────────────── */
 const VinylSticker = ({ isSpinning, color, size = 34 }) => (
   <motion.div
     animate={{ rotate: isSpinning ? 360 : 0 }}
@@ -45,7 +39,6 @@ const VinylSticker = ({ isSpinning, color, size = 34 }) => (
   </motion.div>
 );
 
-/* ── Icon action button ─────────────────────────────────────── */
 const IconBtn = ({ onClick, active, title, color, size = 32, children }) => (
   <motion.button
     onClick={onClick}
@@ -66,7 +59,6 @@ const IconBtn = ({ onClick, active, title, color, size = 32, children }) => (
   </motion.button>
 );
 
-/* ── Skip button ────────────────────────────────────────────── */
 const SkipBtn = ({ onClick, title, children, size = 30 }) => (
   <motion.button
     onClick={onClick} title={title}
@@ -85,7 +77,6 @@ const SkipBtn = ({ onClick, title, children, size = 30 }) => (
   </motion.button>
 );
 
-/* ── Play / Pause ───────────────────────────────────────────── */
 const PlayPauseBtn = ({ isPlaying, togglePlay, color, iconSize = 18, size = 44 }) => (
   <motion.button
     onClick={togglePlay}
@@ -96,8 +87,8 @@ const PlayPauseBtn = ({ isPlaying, togglePlay, color, iconSize = 18, size = 44 }
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
       background: `linear-gradient(135deg, ${color} 0%, #F8B088 100%)`,
-      border: '2.5px solid #4A2E2B',
-      boxShadow: '3px 3px 0px #4A2E2B',
+      border: '2.5px solid transparent', 
+      boxShadow: '0px 0px 0px 2.5px #4A2E2B, 3px 3px 0px 2.5px #4A2E2B',
       color: '#4A2E2B',
     }}
   >
@@ -113,7 +104,6 @@ const PlayPauseBtn = ({ isPlaying, togglePlay, color, iconSize = 18, size = 44 }
   </motion.button>
 );
 
-/* ── Shared pill background style ───────────────────────────── */
 const pill = {
   background: 'rgba(255,253,245,0.96)',
   backdropFilter: 'blur(20px)',
@@ -123,9 +113,6 @@ const pill = {
   boxShadow: '4px 4px 0px #4A2E2B',
 };
 
-/* ════════════════════════════════════════════════════════════
-   BOTTOM DOCK
-   ════════════════════════════════════════════════════════════ */
 const BottomDock = () => {
   const stationIndex = useStore((s) => s.stationIndex);
   const isPlaying    = useStore((s) => s.isPlaying);
@@ -139,12 +126,11 @@ const BottomDock = () => {
   const setModal     = useStore((s) => s.setModal);
   const setVolume    = useStore((s) => s.setVolume);
 
-  const isMobile = useIsMobile(768); // true when < 768px
+  const isMobile = useIsMobile(768); 
   const station  = STATIONS[stationIndex] ?? STATIONS[0];
   const emoji    = getBadgeEmoji(station.badge);
   const color    = ACCENT_COLORS[stationIndex % ACCENT_COLORS.length];
 
-  /* Action buttons — rendered once in rail (mobile) or dock (desktop) */
   const actionButtons = [
     { id: 'stations', icon: <Music2 size={15} />, title: 'Stations',       active: activeModal === 'stations', onClick: () => setModal(activeModal === 'stations' ? null : 'stations') },
     { id: 'ambient',  icon: <Wind   size={15} />, title: 'Ambient Sounds', active: activeModal === 'ambient',  onClick: () => setModal(activeModal === 'ambient'  ? null : 'ambient')  },
@@ -154,7 +140,6 @@ const BottomDock = () => {
 
   return (
     <>
-      {/* ── Always-visible restore eye ───────────────────────── */}
       <AnimatePresence>
         {!uiVisible && (
           <motion.button
@@ -180,21 +165,12 @@ const BottomDock = () => {
         )}
       </AnimatePresence>
 
-      {/* ════════════════════════════════════════════════════════
-          MOBILE LAYOUT  (isMobile = viewport < 768px)
-          ════════════════════════════════════════════════════════ */}
       {isMobile && (
         <>
-          {/* ── Right vertical action rail ─────────────────── */}
           <AnimatePresence>
             {uiVisible && (
               <motion.div
                 key="mobile-rail"
-                /*
-                 * framer-motion owns ALL transforms.
-                 * y:'-50%' composes with the x slide animation.
-                 * NEVER put centering in CSS transform when FM is active.
-                 */
                 initial={{ x: 80,  y: '-50%', opacity: 0 }}
                 animate={{ x: 0,   y: '-50%', opacity: 1 }}
                 exit={{   x: 80,  y: '-50%', opacity: 0 }}
@@ -220,7 +196,6 @@ const BottomDock = () => {
             )}
           </AnimatePresence>
 
-          {/* ── Bottom compact playback dock ────────────────── */}
           <AnimatePresence>
             {uiVisible && (
               <motion.div
@@ -231,21 +206,16 @@ const BottomDock = () => {
                 transition={{ type: 'spring', stiffness: 300, damping: 28 }}
                 style={{
                   position: 'fixed', bottom: 14, left: '50%', zIndex: 50,
-                  /*
-                   * Leave 58px on the right for the action rail.
-                   * Cap at 400px so it never becomes too wide.
-                   */
-                  width: 'min(calc(100vw - 62px), 400px)',
+                  width: 'max-content',
+                  maxWidth: 'calc(100vw - 62px)',
                 }}
               >
                 <div style={{
                   ...pill,
                   display: 'flex', alignItems: 'center', gap: 7, padding: '8px 12px',
                 }}>
-                  {/* Spinning vinyl */}
                   <VinylSticker isSpinning={isPlaying} color={color} size={28} />
 
-                  {/* Transport controls */}
                   <SkipBtn onClick={prevStation} title="Previous" size={28}>
                     <SkipBack size={12} />
                   </SkipBtn>
@@ -259,23 +229,17 @@ const BottomDock = () => {
                     <SkipForward size={12} />
                   </SkipBtn>
 
-                  {/*
-                   * Volume slider — takes remaining space.
-                   * On very narrow phones (< ~340px) the slider
-                   * will compress but controls always stay visible.
-                   */}
                   <div style={{
-                    display: 'flex', alignItems: 'center', gap: 4,
-                    flex: '1 1 0%', minWidth: 0, overflow: 'hidden',
+                    display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 
                   }}>
-                    <Volume2 size={11} style={{ color: '#7A4E4A', flexShrink: 0 }} />
+                    <Volume2 size={12} style={{ color: '#7A4E4A', flexShrink: 0 }} />
                     <input
                       type="range"
                       min={0} max={100}
                       value={volume}
                       onChange={(e) => setVolume(Number(e.target.value))}
                       style={{
-                        width: '100%', minWidth: 0,
+                        width: 72,
                         '--thumb-color': color,
                       }}
                       title="Volume"
@@ -288,11 +252,6 @@ const BottomDock = () => {
         </>
       )}
 
-      {/* ════════════════════════════════════════════════════════
-          DESKTOP UNIFIED DOCK  (viewport ≥ 768px)
-          Contains BOTH transport + action buttons in one pill.
-          The right rail is NOT rendered at all on desktop.
-          ════════════════════════════════════════════════════════ */}
       {!isMobile && (
         <AnimatePresence>
           {uiVisible && (
@@ -304,7 +263,8 @@ const BottomDock = () => {
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               style={{
                 position: 'fixed', bottom: 24, left: '50%', zIndex: 50,
-                width: 'min(760px, calc(100vw - 48px))',
+                width: 'max-content',
+                maxWidth: 'min(760px, calc(100vw - 48px))',
               }}
             >
               <div style={{
@@ -315,9 +275,8 @@ const BottomDock = () => {
                 gap: 8, padding: '10px 16px',
               }}>
 
-                {/* Vinyl + Station info */}
                 <VinylSticker isSpinning={isPlaying} color={color} size={34} />
-                <div style={{ flex: '1 1 0%', minWidth: 0, marginRight: 4 }}>
+                <div style={{ flex: '1 1 0%', minWidth: 100, marginRight: 4 }}>
                   <motion.p
                     key={station.id}
                     initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
@@ -338,7 +297,6 @@ const BottomDock = () => {
                   </p>
                 </div>
 
-                {/* Transport */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
                   <SkipBtn onClick={prevStation} title="Previous station" size={30}>
                     <SkipBack size={13} />
@@ -352,25 +310,22 @@ const BottomDock = () => {
                   </SkipBtn>
                 </div>
 
-                {/* Volume */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-                  <Volume2 size={12} style={{ color: '#7A4E4A', flexShrink: 0 }} />
+                  <Volume2 size={14} style={{ color: '#7A4E4A', flexShrink: 0 }} />
                   <input
                     id="master-volume"
                     type="range" min={0} max={100} value={volume}
                     onChange={(e) => setVolume(Number(e.target.value))}
-                    style={{ width: 72, '--thumb-color': color }}
+                    style={{ width: 80, '--thumb-color': color }}
                     title="Volume"
                   />
                 </div>
 
-                {/* Divider */}
                 <div style={{
                   width: 1, alignSelf: 'stretch',
                   background: '#D6C9A8', margin: '0 4px', flexShrink: 0,
                 }} />
 
-                {/* Action buttons — ONLY here on desktop, not duplicated in a rail */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
                   {actionButtons.map((btn) => (
                     <IconBtn key={btn.id} onClick={btn.onClick} active={btn.active}

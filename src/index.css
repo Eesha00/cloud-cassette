@@ -136,7 +136,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: var(--thumb-color, #F4B5C6);
   border: 2.5px solid #4A2E2B;
   box-shadow: 2px 2px 0px #4A2E2B;
-  margin-top: -7px; /* vertically centres thumb on the 8px track */
+  margin-top: -8px; /* vertically centres thumb on the 8px track */
   cursor: pointer;
   transition: transform 0.12s ease;
 }

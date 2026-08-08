@@ -4,30 +4,34 @@ import { X, RotateCcw } from 'lucide-react';
 import useStore from '../../store/useStore';
 
 /* ── SVG Countdown Ring ────────────────────────────────────── */
-const CountdownRing = ({ progress, size = 192 }) => {
-  const strokeW = 11;
-  const R       = (size - strokeW * 2) / 2;
-  const C       = 2 * Math.PI * R;
-  const off     = C * (1 - Math.max(0, Math.min(1, progress)));
-  const cx      = size / 2;
-  const cy      = size / 2;
+const CountdownRing = ({ progress }) => {
+  // Using viewBox 0 0 100 100 makes this perfectly responsive and centered
+  const radius = 42; 
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - progress * circumference;
+
   return (
     <svg
-      width={size}
-      height={size}
-      className="absolute inset-0 m-auto"
-      style={{ transform: 'rotate(-90deg)' }}
+      viewBox="0 0 100 100"
+      className="absolute inset-0 w-full h-full -rotate-90 transform"
     >
-      <circle cx={cx} cy={cy} r={R} fill="none" stroke="#E8DCCB" strokeWidth={strokeW} />
+      {/* Background Track Circle */}
+      <circle 
+        cx="50" cy="50" r={radius} 
+        fill="none" 
+        stroke="#E8DCCB" 
+        strokeWidth="6" 
+      />
+      {/* Active Progress Circle */}
       <circle
-        cx={cx} cy={cy} r={R}
+        cx="50" cy="50" r={radius}
         fill="none"
         stroke="#4A2E2B"
-        strokeWidth={strokeW}
+        strokeWidth="6"
         strokeLinecap="round"
-        strokeDasharray={C}
-        strokeDashoffset={off}
-        style={{ transition: 'stroke-dashoffset 0.95s linear' }}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        className="transition-all duration-1000 ease-linear"
       />
     </svg>
   );
@@ -73,7 +77,7 @@ const TimerModal = () => {
   // Progress (0→1)
   const totalSecs  = (timerMode === 'focus' ? focusDuration : breakDuration) * 60;
   const elapsed    = totalSecs - (timerMinutes * 60 + timerSeconds);
-  const progress   = totalSecs > 0 ? Math.min(1, elapsed / totalSecs) : 0;
+  const progress   = totalSecs > 0 ? Math.min(1, Math.max(0, elapsed / totalSecs)) : 0;
   const isFocus    = timerMode === 'focus';
 
   const applyCustom = () => {
@@ -84,10 +88,11 @@ const TimerModal = () => {
     setCustomBreak(String(b));
   };
 
+  // FIXED: Changed values to exactly match what useStore is looking for
   const PRESETS = [
-    { label: '25 / 5',  value: 'classic',  desc: 'Classic Pomodoro' },
-    { label: '50 / 10', value: 'deep',     desc: 'Deep Work' },
-    { label: 'Custom',  value: 'custom',   desc: 'Set your own' },
+    { label: '25 / 5',  value: '25/5',  desc: 'Classic Pomodoro' },
+    { label: '50 / 10', value: '50/10', desc: 'Deep Work' },
+    { label: 'Custom',  value: 'custom',  desc: 'Set your own' },
   ];
 
   return (
@@ -160,7 +165,7 @@ const TimerModal = () => {
                     boxShadow: '5px 5px 0px #4A2E2B',
                   }}
                 >
-                  <CountdownRing progress={progress} size={192} />
+                  <CountdownRing progress={progress} />
                   <div
                     className="absolute inset-0 flex flex-col items-center justify-center"
                     style={{ zIndex: 1 }}

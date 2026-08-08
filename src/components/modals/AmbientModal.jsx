@@ -2,11 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Volume2, VolumeX } from 'lucide-react';
 import useStore from '../../store/useStore';
-import { AMBIENT_TRACKS } from '../../config/stations';
+
+// Local track definitions with exact paths matching your /public/audio/ambient/ directory
+const AMBIENT_TRACK_CONFIG = [
+  { id: 'rain', label: 'Rain', emoji: '🌧️', src: '/audio/ambient/rain.mp3' },
+  { id: 'crickets', label: 'Crickets', emoji: '🦗', src: '/audio/ambient/crickets.mp3' },
+  { id: 'fire', label: 'Fireplace', emoji: '🔥', src: '/audio/ambient/fire.mp3' },
+];
 
 const TRACK_COLORS = {
   rain: '#A8D8EA',
-  cafe: '#E9C46A',
+  crickets: '#98B682',
   fire: '#F8B088',
 };
 
@@ -21,36 +27,36 @@ const AmbientModal = () => {
   const isOpen    = activeModal === 'ambient';
   const audioRefs = useRef({});
 
-  // Create audio elements once — try local, fall back to CDN on error
+  // Initialize persistent HTML5 Audio instances for each ambient channel
   useEffect(() => {
-    AMBIENT_TRACKS.forEach((track) => {
+    AMBIENT_TRACK_CONFIG.forEach((track) => {
       if (!audioRefs.current[track.id]) {
         const audio = new Audio(track.src);
         audio.loop   = true;
         audio.volume = 0;
-        audio.onerror = () => {
-          if (track.fallbackSrc && audio.src !== track.fallbackSrc) {
-            audio.src = track.fallbackSrc;
-            audio.load();
-          }
-        };
         audioRefs.current[track.id] = audio;
       }
     });
+
     return () => {
       Object.values(audioRefs.current).forEach((a) => {
-        a.pause(); a.src = '';
+        a.pause();
       });
     };
   }, []);
 
-  // Sync volume + mute to audio elements
+  // Sync volume slider and mute state directly to local audio instances
   useEffect(() => {
-    AMBIENT_TRACKS.forEach((track) => {
+    AMBIENT_TRACK_CONFIG.forEach((track) => {
       const audio = audioRefs.current[track.id];
       if (!audio) return;
-      const vol = ambientMuted[track.id] ? 0 : ambientVolumes[track.id] / 100;
+      
+      const rawVol = ambientVolumes[track.id] ?? 0;
+      const isMuted = ambientMuted[track.id] ?? false;
+      const vol = isMuted ? 0 : rawVol / 100;
+      
       audio.volume = vol;
+
       if (vol > 0) {
         audio.play().catch(() => {});
       } else {
@@ -62,7 +68,6 @@ const AmbientModal = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        /* ── Full-screen centred overlay ── */
         <motion.div
           key="ambient-overlay"
           initial={{ opacity: 0 }}
@@ -73,7 +78,6 @@ const AmbientModal = () => {
           style={{ background: 'rgba(74,46,43,0.30)', backdropFilter: 'blur(4px)' }}
           onClick={() => setModal(null)}
         >
-          {/* ── Modal card ── */}
           <motion.div
             key="ambient-card"
             initial={{ y: 24, opacity: 0, scale: 0.96 }}
@@ -103,7 +107,8 @@ const AmbientModal = () => {
                   whileTap={{ scale: 0.92 }}
                   className="flex items-center justify-center rounded-full text-[#4A2E2B]"
                   style={{
-                    width: 34, height: 34,
+                    width: 34,
+                    height: 34,
                     background: '#F5EDD5',
                     border: '2.5px solid #4A2E2B',
                     boxShadow: '2px 2px 0px #4A2E2B',
@@ -113,17 +118,16 @@ const AmbientModal = () => {
                 </motion.button>
               </div>
 
-              {/* Tracks */}
+              {/* Ambient Track Sliders */}
               <div className="space-y-5">
-                {AMBIENT_TRACKS.map((track) => {
-                  const vol      = ambientVolumes[track.id];
-                  const muted    = ambientMuted[track.id];
+                {AMBIENT_TRACK_CONFIG.map((track) => {
+                  const vol      = ambientVolumes[track.id] ?? 0;
+                  const muted    = ambientMuted[track.id] ?? false;
                   const isActive = !muted && vol > 0;
                   const tColor   = TRACK_COLORS[track.id] ?? '#E9C46A';
 
                   return (
                     <div key={track.id}>
-                      {/* Row */}
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span
@@ -157,7 +161,8 @@ const AmbientModal = () => {
                             whileTap={{ scale: 0.92 }}
                             className="flex items-center justify-center rounded-full text-[#4A2E2B]"
                             style={{
-                              width: 30, height: 30,
+                              width: 30,
+                              height: 30,
                               background: muted ? '#F5EDD5' : tColor,
                               border: '2px solid #4A2E2B',
                               boxShadow: '2px 2px 0px #4A2E2B',
@@ -168,25 +173,20 @@ const AmbientModal = () => {
                         </div>
                       </div>
 
-                      {/* Slider */}
-                      <div className="relative">
-                        <div
-                          className="absolute left-0 top-1/2 -translate-y-1/2 h-[6px] rounded-full pointer-events-none transition-all duration-150"
-                          style={{
-                            width: `${muted ? 0 : vol}%`,
-                            background: (!muted && vol > 0) ? tColor : 'transparent',
-                            border: (!muted && vol > 0) ? '1.5px solid #4A2E2B' : 'none',
-                            zIndex: 1,
-                          }}
-                        />
+                      {/* Clean Single Track Slider */}
+                      <div className="relative flex items-center">
                         <input
                           id={`ambient-slider-${track.id}`}
                           type="range"
-                          min={0} max={100}
+                          min={0}
+                          max={100}
                           value={vol}
                           onChange={(e) => setAmbientVol(track.id, Number(e.target.value))}
                           disabled={muted}
-                          style={{ '--thumb-color': tColor, position: 'relative', zIndex: 2 }}
+                          className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-[#EFE3C3] border border-[#4A2E2B]"
+                          style={{
+                            accentColor: tColor,
+                          }}
                         />
                       </div>
                     </div>
@@ -194,7 +194,7 @@ const AmbientModal = () => {
                 })}
               </div>
 
-              {/* Footer note */}
+              {/* Footer Note */}
               <div
                 className="mt-5 py-2 px-3 rounded-xl text-center"
                 style={{ background: '#F5EDD5', border: '1.5px dashed #C5A882' }}
