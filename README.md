@@ -1,16 +1,62 @@
-# React + Vite
+# ☁️📼 Cloud Cassette
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A cozy, retro-inspired lo-fi radio web application designed for deep focus and relaxation. Cloud Cassette combines curated music streams with synchronized looping visuals, an independent ambient noise mixer, and a built-in Pomodoro productivity timer—all wrapped in a responsive 16-bit pastel aesthetic.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **Curated Lo-Fi Stations:** 10+ distinct radio stations featuring synchronized, looping pixel-art video backgrounds.
+*   **Ambient Sound Mixer:** Layer independent, volume-controlled ambient tracks (Rain 🌧️, Crickets 🦗, Fireplace 🔥) over the music.
+*   **Integrated Pomodoro Timer:** Focus and break intervals with classic (25/5), deep work (50/10), or fully custom durations. Features visual SVG progress rings and audio chimes.
+*   **Dynamic Responsive UI:** A floating, draggable interface with a unified desktop dock and a collapsible mobile action rail.
+*   **Retro Aesthetic:** High-quality CSS styling featuring custom font stacks (Fredoka, Silkscreen, VT323), film grain overlays, SVG noise filters, and chained box-shadows to eliminate sub-pixel rendering gaps.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Core Languages**
+*   JavaScript (ES6+) / JSX
+*   CSS3
+*   HTML5
 
-## Expanding the Oxlint configuration
+**Frameworks & Libraries**
+*   **React 18 + Vite:** Core UI rendering and lightning-fast build tooling.
+*   **Tailwind CSS:** Utility-first styling combined with custom CSS modules for complex, unified animations.
+*   **Zustand:** Lightweight global state management for audio volumes, timer logic, and active station state.
+*   **Framer Motion:** Declarative physics-based animations and layout transitions.
+*   **Lucide React:** Clean, customizable vector iconography.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🚀 Local Development Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/yourusername/cloud-cassette.git](https://github.com/yourusername/cloud-cassette.git)
+    cd cloud-cassette
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:**
+    Vite is configured to automatically open your default browser.
+    ```bash
+    npm run dev
+    ```
+
+## ⌨️ Keyboard Shortcuts
+
+| Key | Action |
+| :--- | :--- |
+| `Spacebar` | Play / Pause current station |
+| `↑` / `↓` | Switch to the next / previous station |
+| `H` | Toggle UI visibility (Hide/Show) |
+
+## 📁 Key File Structure
+
+*   `src/store/useStore.js`: Global Zustand store handling audio volumes, timer logic, and active station state.
+*   `src/components/BottomDock.jsx`: The primary responsive playback and navigation controller.
+*   `src/components/modals/`: Contains the UI layers for `AmbientModal.jsx` and `TimerModal.jsx`.
+*   `src/components/Splash.jsx`: Animated entry screen forcing user interaction to bypass browser auto-play restrictions.
+
+---
+*Built by Eesha Amir.*
