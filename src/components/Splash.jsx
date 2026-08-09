@@ -15,15 +15,15 @@ const Splash = () => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed top-0 left-0 right-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
+          style={{ bottom: 'calc(-1 * env(safe-area-inset-bottom))' }}
         >
-          {/* ── Image Background (No Blur) ── */}
-         {/* ── Image Background ── */}
-<div className="absolute -inset-1 pointer-events-none overflow-hidden bg-[#4A2E2B]">
+{/* ── Image Background ── */}
+<div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
   <img
     src="/splash-bg.webp"
     alt="City Sunset Background"
-    className="w-full h-[100dvh] object-cover scale-[1.02]"
+    className="w-full h-full object-cover scale-[1.02]"
   />
 </div>
 

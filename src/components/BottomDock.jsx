@@ -205,7 +205,10 @@ const BottomDock = () => {
                 exit={{   x: '-50%', y: 90, opacity: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 28 }}
                 style={{
-                  position: 'fixed', bottom: 14, left: '50%', zIndex: 50,
+                  position: 'fixed',
+                  // max() keeps at least 14 px above the edge, then adds home-indicator height
+                  bottom: 'max(14px, calc(14px + env(safe-area-inset-bottom)))',
+                  left: '50%', zIndex: 50,
                   width: 'max-content',
                   maxWidth: 'calc(100vw - 62px)',
                 }}
@@ -262,7 +265,10 @@ const BottomDock = () => {
               exit={{   x: '-50%', y: 100, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
               style={{
-                position: 'fixed', bottom: 24, left: '50%', zIndex: 50,
+                position: 'fixed',
+                // max() keeps at least 24 px on the desktop, plus home-indicator inset
+                bottom: 'max(24px, calc(24px + env(safe-area-inset-bottom)))',
+                left: '50%', zIndex: 50,
                 width: 'max-content',
                 maxWidth: 'min(760px, calc(100vw - 48px))',
               }}

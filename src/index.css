@@ -6,27 +6,55 @@
    Cloud Cassette — Cozy Pastel Global Styles
    ============================================================ */
 
+/* ============================================================
+   Mobile-safe viewport baseline
+   - 100dvh = dynamic viewport height (shrinks when URL bar hides)
+   - env(safe-area-inset-*) = covers notches & home-indicator bars
+   - background-color matches the App root so any sub-pixel seam
+     is invisible instead of flashing a contrasting colour
+   ============================================================ */
+html {
+  /* Older browsers: fill the full initial viewport */
+  height: 100%;
+  height: 100svh;  /* small-vp: stable 'no-chrome' height */
+  height: 100dvh;  /* dynamic: tracks URL-bar show/hide in real time */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #4A2E2B;
+  /* Force the browser to acknowledge our edge-to-edge intent */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #4A2E2B; /* matches App root — hides any sub-pixel gap */
+  color: #4A2E2B;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Note: safe-area insets are handled per-component via env() */
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: #4A2E2B;
+}
+
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
-
-  html, body, #root {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  body {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: #DCE5B2;
-    color: #4A2E2B;
-  }
 }
+
 
 /* ── Font utilities ──────────────────────────────────────────── */
 .font-retro { font-family: 'Silkscreen', monospace; }

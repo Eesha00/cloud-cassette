@@ -18,8 +18,8 @@ const TopHeader = () => {
           animate={{ y: 0,   opacity: 1 }}
           exit={{   y: -60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-          className="fixed top-0 left-0 right-0 z-50 px-3 py-3
-                     flex items-start justify-between gap-2"
+          className="fixed top-0 left-0 right-0 z-50 px-3 flex items-start justify-between gap-2"
+          style={{ paddingTop: 'max(12px, env(safe-area-inset-top))' }}
         >
 
           {/* ── Left: Cloud Cassette logo + station name ── */}

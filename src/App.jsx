@@ -19,7 +19,9 @@ const App = () => {
   useKeyboard();
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black font-sans">
+    /* fixed inset-0 anchors to hardware screen corners on mobile —
+       most reliable full-bleed strategy regardless of URL-bar state */
+    <div className="fixed top-0 left-0 w-full overflow-hidden bg-[#4A2E2B] font-sans h-[calc(100dvh+env(safe-area-inset-bottom))]">
       {/* ── Full-screen video + CRT effects ── */}
       <Background />
 

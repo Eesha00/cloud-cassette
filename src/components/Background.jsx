@@ -7,11 +7,9 @@ import { STATIONS } from '../config/stations';
 const BG_FALLBACKS = {
   'raining-on-street': 'linear-gradient(135deg, #B8CEDC 0%, #8AAFC0 100%)',
   'avatar-sky':        'linear-gradient(135deg, #C3B1E1 0%, #8090BC 100%)',
-  'oriental-sunset':   'linear-gradient(135deg, #F8CCA0 0%, #E89868 100%)',
   'misty-church':      'linear-gradient(135deg, #D4B8B0 0%, #B08078 100%)',
   'cyber-city':        'linear-gradient(135deg, #C0B8DC 0%, #9080C0 100%)',
   'green-scenery':     'linear-gradient(135deg, #C4D4B0 0%, #98BC80 100%)',
-  'gothic-night':      'linear-gradient(135deg, #B0B8C8 0%, #707890 100%)',
   'char-gaming':       'linear-gradient(135deg, #F4C8D4 0%, #E8A0B8 100%)',
   'messy-room':        'linear-gradient(135deg, #F5EDD5 0%, #E9C46A 100%)',
   'snowy-temple':      'linear-gradient(135deg, #D8ECF0 0%, #A8C8D0 100%)',
@@ -27,7 +25,10 @@ const Background = () => {
   const mimeType = station.videoBg?.endsWith('.webm') ? 'video/webm' : 'video/mp4';
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden">
+    <div
+      className="fixed top-0 left-0 right-0 z-0 overflow-hidden"
+      style={{ bottom: 'calc(-1 * env(safe-area-inset-bottom))' }}
+    >
 
       {/* ── Warm gradient fallback (always visible beneath video) ── */}
       <div

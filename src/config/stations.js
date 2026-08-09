@@ -1,5 +1,5 @@
 // ============================================================
-//  Cloud Cassette — Station Configuration (11 Stations)
+//  Cloud Cassette — Station Configuration (9 Stations)
 //
 //  mobileFocal: CSS objectPosition value (e.g. '20% 50%').
 //    Stored as plain CSS so it's applied via inline style and
@@ -31,18 +31,8 @@ export const STATIONS = [
     accentColor: '#C3B1E1',
   },
   {
-    id: 'oriental-sunset',
-    name: '03. Pagoda Sunset',
-    genre: 'Traditional & Oriental Chill',
-    badge: '⛩️ Mountain Breeze',
-    audioSrc: '/audio/tracks/03-china.mp3',
-    videoBg: '/backgrounds/oriental-sunset.webm',
-    mobileFocal: '25% 50%',
-    accentColor: '#F8B088',
-  },
-  {
     id: 'misty-church',
-    name: '04. Crimson Sanctuary',
+    name: '03. Crimson Sanctuary',
     genre: 'Dark & Atmospheric Lofi',
     badge: '⛪ Misty Chords',
     audioSrc: '/audio/tracks/04-church.mp3',
@@ -52,7 +42,7 @@ export const STATIONS = [
   },
   {
     id: 'cyber-city',
-    name: '05. Cyberpunk Rooftops',
+    name: '04. Cyberpunk Rooftops',
     genre: 'Synthwave & Midnight Beats',
     badge: '👾 Neon Alley',
     audioSrc: '/audio/tracks/05-cyber-city.mp3',
@@ -62,7 +52,7 @@ export const STATIONS = [
   },
   {
     id: 'green-scenery',
-    name: '06. Meadow Horizon',
+    name: '05. Meadow Horizon',
     genre: 'Acoustic & Nature Lofi',
     badge: '🍃 Peaceful Fields',
     audioSrc: '/audio/tracks/06-green-scenery.mp3',
@@ -71,18 +61,8 @@ export const STATIONS = [
     accentColor: '#98B682',
   },
   {
-    id: 'gothic-night',
-    name: '07. Midnight Abbey Gate',
-    genre: 'Deep Focus & Nocturnal',
-    badge: '🌕 Gothic Calm',
-    audioSrc: '/audio/tracks/07-night.mp3',
-    videoBg: '/backgrounds/gothic-night.webm',
-    mobileFocal: '35% 50%',
-    accentColor: '#C3B1E1',
-  },
-  {
     id: 'char-gaming',
-    name: '08. Pixel Gamer Room',
+    name: '06. Pixel Gamer Room',
     genre: 'Cozy Nostalgia & Beats',
     badge: '🎮 Pixel Warmth',
     audioSrc: '/audio/tracks/08-char-gaming.mp3',
@@ -92,7 +72,7 @@ export const STATIONS = [
   },
   {
     id: 'messy-room',
-    name: '09. Messy Pixel Bedroom',
+    name: '07. Messy Pixel Bedroom',
     genre: 'Messy Room & Soft Beats',
     badge: '🛏️ Lived-in Haven',
     audioSrc: '/audio/tracks/09-room.mp3',
@@ -102,7 +82,7 @@ export const STATIONS = [
   },
   {
     id: 'snowy-temple',
-    name: '10. Winter Shrine',
+    name: '08. Winter Shrine',
     genre: 'Cold Chill & Quiet Snow',
     badge: '❄️ Falling Snow',
     audioSrc: '/audio/tracks/10-snowy.mp3',
@@ -112,7 +92,7 @@ export const STATIONS = [
   },
   {
     id: 'lakeside-cabin',
-    name: '11. Lakeside Glass Cabin',
+    name: '09. Lakeside Glass Cabin',
     genre: 'Acoustic Chords & Rain',
     badge: '🏡 Fireside Studio',
     audioSrc: '/audio/tracks/11-workspace.mp3',
@@ -121,6 +101,7 @@ export const STATIONS = [
     accentColor: '#F8B088',
   },
 ];
+
 
 
 // ── Helper: extract just the emoji character from a badge string ──
