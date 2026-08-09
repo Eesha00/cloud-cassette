@@ -23,6 +23,10 @@ const Background = () => {
 
   // Determine MIME type from extension
   const mimeType = station.videoBg?.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+  
+  // Dynamically generate the poster path based on the video source
+  // CORRECT (Matches your screenshot exactly)
+  const posterPath = station.videoBg?.replace(/\.(webm|mp4)$/, '-poster.webp');
 
   return (
     <div
@@ -44,6 +48,8 @@ const Background = () => {
           loop
           muted
           playsInline
+          preload="auto"
+          poster={posterPath}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

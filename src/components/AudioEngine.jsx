@@ -8,8 +8,8 @@ import { STATIONS } from '../config/stations';
  * Architecture:
  *   • One persistent HTMLAudioElement (created on mount, lives until unmount).
  *   • Station changes: fade-pause → swap src → fade-in play.
- *   • No YouTube API. No fallback loops. No auto-skip.
- *   • All 11 stations served from /public/audio/tracks/*.mp3.
+ *   • Buffers initial track immediately behind the splash screen.
+ *   • All 9 stations served from /public/audio/tracks/*.mp3.
  *
  * Sync model:
  *   stationIndex → loads new src + plays (if isPlaying)
@@ -33,13 +33,20 @@ const AudioEngine = () => {
   useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
   useEffect(() => { volumeRef.current    = volume;    }, [volume]);
 
-  // ── Create audio element once on mount ─────────────────────
+  // ── Create audio element & Preload on mount ────────────────
   useEffect(() => {
     const audio = new Audio();
-    audio.loop        = true;
-    audio.preload     = 'auto';
-    audio.volume      = volumeRef.current / 100;
-    audioRef.current  = audio;
+    audio.loop      = true;
+    audio.preload   = 'auto'; // Forces browser to download immediately
+    audio.volume    = volumeRef.current / 100;
+    audioRef.current = audio;
+
+    // Start buffering the initial station IMMEDIATELY before user clicks start
+    const initialStation = STATIONS[stationIndex];
+    if (initialStation?.audioSrc) {
+      audio.src = initialStation.audioSrc;
+      audio.load();
+    }
 
     return () => {
       audio.pause();
@@ -50,6 +57,7 @@ const AudioEngine = () => {
 
   // ── Station change → swap track + glitch animation ─────────
   useEffect(() => {
+    // Prevent running this on initial mount (handled above)
     if (!isEntered || !audioRef.current) return;
 
     const audio   = audioRef.current;
@@ -80,14 +88,9 @@ const AudioEngine = () => {
   // ── Initial play when user first enters ────────────────────
   useEffect(() => {
     if (!isEntered || !audioRef.current) return;
-    const audio   = audioRef.current;
-    const station = STATIONS[stationIndex];
-    if (!station?.audioSrc || audio.src) return; // already set by station-change effect
+    const audio = audioRef.current;
 
-    audio.src    = station.audioSrc;
-    audio.volume = volumeRef.current / 100;
-    audio.load();
-
+    // Audio is already preloaded by the mount effect, just play it
     if (isPlayingRef.current) {
       audio.play().catch((err) => {
         console.warn('[AudioEngine] Initial play blocked:', err.message);

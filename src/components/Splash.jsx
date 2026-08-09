@@ -133,7 +133,7 @@ const Splash = () => {
 
               {/* Feature List */}
               <p className="font-comfy text-[#A3857F] text-[8.5px] tracking-wide">
-                11 curated stations <span className="opacity-50 mx-0.5">•</span> ambient sounds <span className="opacity-50 mx-0.5">•</span> pomodoro timer
+                9 curated stations <span className="opacity-50 mx-0.5">•</span> ambient sounds <span className="opacity-50 mx-0.5">•</span> pomodoro timer
               </p>
             </div>
           </motion.div>
