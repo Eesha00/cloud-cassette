@@ -1,5 +1,6 @@
 import React from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 import useStore from './store/useStore';
 import useKeyboard from './hooks/useKeyboard';
 
@@ -25,7 +26,7 @@ const App = () => {
       {/* ── Full-screen video + CRT effects ── */}
       <Background />
 
-      {/* ── Hidden YouTube audio engine ── */}
+      {/* ── Hidden Local Audio Engine ── */}
       <AudioEngine />
 
       {/* ── Splash overlay ── */}
@@ -47,6 +48,9 @@ const App = () => {
           </>
         )}
       </AnimatePresence>
+
+      {/* ── Vercel Analytics (Invisible) ── */}
+      <Analytics />
     </div>
   );
 };

@@ -1,5 +1,7 @@
 # ☁️📼 Cloud Cassette
 
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 A cozy, retro-inspired lo-fi radio web application designed for deep focus and relaxation. Cloud Cassette combines curated music streams with synchronized looping visuals, an independent ambient noise mixer, and a built-in Pomodoro productivity timer—all wrapped in a responsive 16-bit pastel aesthetic.
 
 ## ✨ Features
@@ -60,3 +62,7 @@ A cozy, retro-inspired lo-fi radio web application designed for deep focus and r
 
 ---
 *Built by Eesha Amir.*
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
